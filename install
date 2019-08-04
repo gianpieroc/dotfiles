@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Eloy Toro
+# 2016/01
+
+# RC files
+cd $(dirname $BASH_SOURCE)
+BASE=$(pwd)
+
+# git-prompt
+if [ ! -e ~/.git-prompt.sh ]; then
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
+fi
+
+if [ ! -e ~/.git-completion.bash ]; then
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+fi

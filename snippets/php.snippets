@@ -1,0 +1,24 @@
+snippet request
+try {
+	$request = Requests::${1:get}(
+		Config::get('services.$2'),
+		array(
+			'Accept' => ${3:'application/json'}
+		)
+	);
+} catch(Requests_Exception $e) {
+	$4
+}
+endsnippet
+
+snippet Schema
+Schema::create('$1', function($table) {
+	$2
+});
+endsnippet
+
+snippet Route
+Route::${1:get}('$2', function() {
+	$3
+});
+endsnippet

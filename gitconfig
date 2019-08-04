@@ -1,0 +1,16 @@
+[user]
+	email = eloytoro@gmail.com
+	name = Eloy Toro
+[pull]
+	rebase = true
+[push]
+	default = current
+[diff]
+	compactionHeuristic = true
+[rebase]
+	autoStash = true
+[clean]
+	requireForce = false
+[alias]
+	ls = log --oneline
+	last = log -1 HEAD
