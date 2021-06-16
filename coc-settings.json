@@ -1,0 +1,13 @@
+{
+  "signature.hideOnTextChange": true,
+  "suggest.autoTrigger": "always",
+  "hover.target": "float",
+  "python.jediEnabled": false,
+  "coc.preferences.jumpCommand": "tab drop",
+  "coc.preferences.formatOnSaveFiletypes": ["typescriptreact", "typescript"],
+  "coc.preferences.listOfWorkspaceEdit": "none",
+  "coc.source.emoji.filetypes": ["markdown", "gitcommit"],
+  "eslint.autoFixOnSave": true,
+  "git.showCommitInFloating": true,
+  "snippets.userSnippetsDirectory": "$HOME/.config/nvim/snippets"
+}
