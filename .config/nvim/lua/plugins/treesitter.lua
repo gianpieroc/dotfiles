@@ -39,7 +39,7 @@ return {
                 'bash', 'c', 'cpp', 'fish', 'gitcommit', 'graphql', 'html',
                 'java', 'javascript', 'json', 'json5', 'jsonc', 'lua',
                 'markdown', 'markdown_inline', 'python', 'query', 'rasi',
-                'regex', 'rust', 'scss', 'toml', 'tsx', 'typescript', 'vim',
+                'regex', 'rust', 'scss', 'toml', 'tsx', 'typescript', 'typescriptreact', 'vim',
                 'vimdoc', 'yaml', 'go'
             },
             highlight = {enable = true},

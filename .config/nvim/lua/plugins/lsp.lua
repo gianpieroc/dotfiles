@@ -108,6 +108,6 @@ return {
         end
 
     }, {"tamago324/nlsp-settings.nvim", cmd = "LspSettings", lazy = true},
-    {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/nvim-cmp'}, {'L3MON4D3/LuaSnip'}
+    {'hrsh7th/cmp-nvim-lsp'}, {'L3MON4D3/LuaSnip'}
 
 }
