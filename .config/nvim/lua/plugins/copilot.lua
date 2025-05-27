@@ -5,7 +5,7 @@ return {
         event = 'InsertEnter',
         opts = {
             -- The panel is useless.
-            panel = { enabled = false },
+            panel = {enabled = false},
             suggestion = {
                 hide_during_completion = false,
                 keymap = {
@@ -14,8 +14,8 @@ return {
                     accept_line = '<M-l>',
                     next = '<M-]>',
                     prev = '<M-[>',
-                    dismiss = '<C-/>',
-                },
+                    dismiss = '<C-/>'
+                }
             },
             filetypes = {
                 markdown = true,
@@ -23,8 +23,8 @@ return {
                 javascript = true,
                 typescript = true,
                 typescriptreact = true,
-                lua = true,
-            },
-        },
-    },
+                lua = true
+            }
+        }
+    }
 }
