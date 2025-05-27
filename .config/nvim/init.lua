@@ -1,19 +1,6 @@
--- basics
-vim.g.mapleader = " "
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.opt.termguicolors = true
-vim.wo.number = true
-vim.opt.relativenumber = true
-vim.opt.encoding = "UTF-8"
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.expandtab = true
-vim.wo.scrolloff = 20
 local km = vim.keymap
 
-
--- LAZY
+-- Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -25,31 +12,22 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath,
     })
 end
+
+require("settings")
+
 vim.opt.rtp:prepend(lazypath)
 
+local plugins = 'plugins'
+
 require("lazy").setup({
-    { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
+    { import = "plugins" },
     'nvim-lualine/lualine.nvim',
     'norcalli/nvim-colorizer.lua',
     'numToStr/Comment.nvim',
     'Sonicfury/scretch.nvim',
     'm4xshen/smartcolumn.nvim',
     'mbbill/undotree',
-    {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        config = function()
-            require("copilot").setup({})
-        end,
-    },
-    { 'AndreM222/copilot-lualine' },
-    {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-            require("copilot_cmp").setup()
-        end
-    },
+    "echasnovski/mini.icons",
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     -- Fern
     {
@@ -190,17 +168,6 @@ require("lazy").setup({
     {
         'folke/trouble.nvim',
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        -- modes = {
-        --     test = {
-        --         mode = "diagnostics",
-        --         preview = {
-        --         type = "split",
-        --         relative = "win",
-        --         position = "right",
-        --         size = 0.3,
-        --         },
-        --     },
-        -- },
     },
     {
         "folke/noice.nvim",
@@ -212,15 +179,6 @@ require("lazy").setup({
             "rcarriga/nvim-notify",
         }
     } })
-
--- theme
--- Gruvbox initialization
-vim.o.background = 'dark'
-vim.cmd([[colorscheme gruvbox]])
-
--- Transparent background because wezterm is already setup with transparency
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 -- comment
 require("Comment").setup({
@@ -238,10 +196,6 @@ require("Comment").setup({
         eol = '<leader>cA',
     },
 })
-
--- Autopairs
--- require("lvim.core.autopairs").setup({})
-
 
 -- Colorizer
 require("colorizer").setup()
@@ -280,132 +234,129 @@ local leader_normal_opts = {
     silent = true,
 }
 
-local leader_normal_mappings = {
-    ["<leader>D"] = { group = "Database" },
-    ["<leader>Df"] = { desc = "Find buffer" },
-    ["<leader>Dq"] = { desc = "Last query info" },
-    ["<leader>Dr"] = { desc = "Rename buffer" },
-    ["<leader>Du"] = { desc = "Toggle UI" },
-    ["<leader>\\"] = { desc = "Remove highlighting after search" },
-    ["<leader>b"] = { group = "buffer" },
-    ["<leader>bd"] = { desc = "Close buffer" },
-    ["<leader>bl"] = { desc = "List buffers" },
-    ["<leader>bn"] = { desc = "Next buffer" },
-    ["<leader>bp"] = { desc = "Previous buffer" },
-    ["<leader>br"] = { desc = "Refresh buffers (redraw)" },
-    ["<leader>bx"] = { desc = "Close all buffers but the current one" },
-    ["<leader>c"] = { group = "Comment" },
-    ["<leader>cA"] = { desc = "Insert comment at the end of the line" },
-    ["<leader>cO"] = { desc = "Insert comment on the line above" },
-    ["<leader>cb"] = { desc = "Toggle block comment" },
-    ["<leader>cl"] = { desc = "Toggle line comment" },
-    ["<leader>co"] = { desc = "Insert comment on the line below" },
-    ["<leader>e"] = { group = "NvimTree" },
-    ["<leader>ee"] = { desc = "Toggle" },
-    ["<leader>ef"] = { desc = "Focus" },
-    ["<leader>es"] = { desc = "Show file in tree" },
-    ["<leader>f"] = { group = "Find" },
-    ["<leader>ff"] = { desc = "Fuzze find file" },
-    ["<leader>fo"] = { desc = "Find old file" },
-    ["<leader>l"] = { group = "LSP" },
-    ["<leader>la"] = { desc = "Code action" },
-    ["<leader>lf"] = { desc = "Format" },
-    ["<leader>lo"] = { desc = "Open diagnostics float window" },
-    ["<leader>mp"] = { desc = "Markdown preview with glow" },
-    ["<leader>p"] = { group = "Project" },
-    ["<leader>pf"] = { desc = "Search project files (git)" },
-    ["<leader>pg"] = { desc = "Project git status" },
-    ["<leader>ps"] = { desc = "Live grep" },
-    ["<leader>pt"] = { desc = "Telescope explorer" },
-    ["<leader>rm"] = { desc = "Remove whitelines" },
-    ["<leader>s"] = { group = "Scretch.nvim" },
-    ["<leader>sg"] = { desc = "Live grep scretches" },
-    ["<leader>sl"] = { desc = "Toggle last scretch" },
-    ["<leader>sn"] = { desc = "New scretch" },
-    ["<leader>snn"] = { desc = "New named scretch" },
-    ["<leader>ss"] = { desc = "Search scretches" },
-    ["<leader>sv"] = { desc = "Explore scretches" },
-    ["<leader>t"] = { group = "Tabs" },
-    ["<leader>tc"] = { desc = "Close" },
-    ["<leader>tn"] = { desc = "Next" },
-    ["<leader>tp"] = { desc = "Prev" },
-    ["<leader>tt"] = { desc = "New" },
-    ["<leader>u"] = { desc = "Toggle undotree" },
-    ["<leader>w"] = { group = "Window" },
-    ["<leader>wc"] = { desc = "Close pane" },
-    ["<leader>wh"] = { desc = "Focus left" },
-    ["<leader>wj"] = { desc = "Focus down" },
-    ["<leader>wk"] = { desc = "Focus up" },
-    ["<leader>wl"] = { desc = "Focus right" },
-    ["<leader>ws"] = { desc = "Split horizontally" },
-    ["<leader>wsj"] = { desc = "Split horizontally and focus down" },
-    ["<leader>wv"] = { desc = "Split vertically" },
-    ["<leader>wvl"] = { desc = "Split vertically and focus right" },
-    ["<leader>ww"] = { desc = "New buffer in new pane" },
-    ["<leader>x"] = { group = "Trouble" },
-    ["<leader>xR"] = { desc = "Trouble LSP references" },
-    ["<leader>xd"] = { desc = "Trouble document diagnostics" },
-    ["<leader>xl"] = { desc = "Trouble loclist" },
-    ["<leader>xq"] = { desc = "Trouble quickfix" },
-    ["<leader>xw"] = { desc = "Trouble workspace diagnostics" },
-    ["<leader>xx"] = { desc = "Toggle Trouble" },
-}
--- <LEADER> VISUAL MODE
-local leader_visual_opts = {
-    prefix = "<leader>",
-    mode = "v",
-    silent = true,
-}
-local leader_visual_mappings = {
-    c = {
-        name = "Comment",
-        l = "Toggle line comment",
-        b = "Toggle block comment",
-    },
-    ["pV"] = "Live grep visual selection",
-}
--- NORMAL MODE
-local normal_opts = {
-    mode = "n",
-    silent = true
-}
-local normal_mappings = {
-    ["[d"] = "Go to next diagnostic",
-    ["]d"] = "Go to previous diagnostic",
-    z = {
-        name = "Folds",
-        ["}"] = "Toggle } fold",
-        ["{"] = "Toggle { fold",
-        [")"] = "Toggle ) fold",
-        ["("] = "Toggle ( fold",
-        ["]"] = "Toggle ] fold",
-        ["["] = "Toggle [ fold",
-        ["T"] = "Toggle tag fold",
-    },
-    g = {
-        d = "Go to definition",
-        D = "Go to declaration",
-        I = "Go to implementation",
-        o = "Go to type definition",
-        r = "Go to type references",
-    }
-}
+-- local leader_normal_mappings = {
+--     { "<leader>", desc = "<leader>es" },
+--     { "<leader>", desc = "<leader>xx" },
+--     { "<leader>", desc = "<leader>xw" },
+--     { "<leader>", desc = "<leader>xq" },
+--     { "<leader>", group = "Database" },
+--     { "<leader>", desc = "<leader>Dq" },
+--     { "<leader>", desc = "<leader>Df" },
+--     { "<leader>", desc = "<leader>Dr" },
+--     { "<leader>", desc = "<leader>xl" },
+--     { "<leader>", desc = "<leader>xR" },
+--     { "<leader>", desc = "<leader>wv" },
+--     { "<leader>", desc = "<leader>wsj" },
+--     { "<leader>", desc = "<leader>xd" },
+--     { "<leader>", desc = "<leader>wvl" },
+--     { "<leader>", group = "Trouble" },
+--     { "<leader>", desc = "<leader>ww" },
+--     { "<leader>", desc = "<leader>ws" },
+--     { "<leader>", desc = "<leader>Du" },
+--     { "<leader>", group = "buffer" },
+--     { "<leader>", desc = "<leader>cb" },
+--     { "<leader>", desc = "<leader>cO" },
+--     { "<leader>", desc = "<leader>cA" },
+--     { "<leader>", desc = "<leader>cl" },
+--     { "<leader>", group = "NvimTree" },
+--     { "<leader>", desc = "<leader>co" },
+--     { "<leader>", desc = "<leader>\\" },
+--     { "<leader>", group = "Comment" },
+--     { "<leader>", desc = "<leader>br" },
+--     { "<leader>", desc = "<leader>bd" },
+--     { "<leader>", desc = "<leader>bx" },
+--     { "<leader>", desc = "<leader>bl" },
+--     { "<leader>", desc = "<leader>bp" },
+--     { "<leader>", desc = "<leader>bn" },
+--     { "<leader>", desc = "<leader>ee" },
+--     { "<leader>", desc = "<leader>wl" },
+--     { "<leader>", desc = "<leader>wj" },
+--     { "<leader>", desc = "<leader>pf" },
+--     { "<leader>", group = "Project" },
+--     { "<leader>", desc = "<leader>mp" },
+--     { "<leader>", desc = "<leader>pg" },
+--     { "<leader>", desc = "<leader>pt" },
+--     { "<leader>", desc = "<leader>ps" },
+--     { "<leader>", desc = "<leader>rm" },
+--     { "<leader>", desc = "<leader>lo" },
+--     { "<leader>", desc = "<leader>la" },
+--     { "<leader>", group = "Find" },
+--     { "<leader>", desc = "<leader>lf" },
+--     { "<leader>", desc = "<leader>ff" },
+--     { "<leader>", group = "LSP" },
+--     { "<leader>", desc = "<leader>fo" },
+--     { "<leader>", desc = "<leader>wk" },
+--     { "<leader>", group = "Scretch.nvim" },
+--     { "<leader>", desc = "<leader>sl" },
+--     { "<leader>", desc = "<leader>u" },
+--     { "<leader>", desc = "<leader>tt" },
+--     { "<leader>", desc = "<leader>tp" },
+--     { "<leader>", group = "Window" },
+--     { "<leader>", desc = "<leader>wh" },
+--     { "<leader>", desc = "<leader>wc" },
+--     { "<leader>", desc = "<leader>sg" },
+--     { "<leader>", desc = "<leader>tn" },
+--     { "<leader>", group = "Tabs" },
+--     { "<leader>", desc = "<leader>sn" },
+--     { "<leader>", desc = "<leader>tc" },
+--     { "<leader>", desc = "<leader>snn" },
+--     { "<leader>", desc = "<leader>sv" },
+--     { "<leader>", desc = "<leader>ss" },
+--     { "<leader>", desc = "<leader>ef" },
+--   }
 
--- CLIPBOARD
-vim.opt.clipboard = "unnamedplus"
--- vim.api.nvim_set_option("clipboard", "unnamed")
+-- -- <LEADER> VISUAL MODE
+-- local leader_visual_opts = {
+--     prefix = "<leader>",
+--     mode = "v",
+--     silent = true,
+-- }
+-- local leader_visual_mappings = {
+--     c = {
+--         name = "Comment",
+--         l = "Toggle line comment",
+--         b = "Toggle block comment",
+--     },
+--     ["pV"] = "Live grep visual selection",
+-- }
+-- -- NORMAL MODE
+-- local normal_opts = {
+--     mode = "n",
+--     silent = true
+-- }
+-- local normal_mappings = {
+--     ["[d"] = "Go to next diagnostic",
+--     ["]d"] = "Go to previous diagnostic",
+--     z = {
+--         name = "Folds",
+--         ["}"] = "Toggle } fold",
+--         ["{"] = "Toggle { fold",
+--         [")"] = "Toggle ) fold",
+--         ["("] = "Toggle ( fold",
+--         ["]"] = "Toggle ] fold",
+--         ["["] = "Toggle [ fold",
+--         ["T"] = "Toggle tag fold",
+--     },
+--     g = {
+--         d = "Go to definition",
+--         D = "Go to declaration",
+--         I = "Go to implementation",
+--         o = "Go to type definition",
+--         r = "Go to type references",
+--     }
+-- }
 
 -- INSERT MODE
-local insert_opts = {
-    mode = "i",
-    silent = true
-}
+-- local insert_opts = {
+--     mode = "i",
+--     silent = true
+-- }
 local insert_mappings = {
 }
-wk.register(leader_normal_mappings, leader_normal_opts)
-wk.register(leader_visual_mappings, leader_visual_opts)
-wk.register(normal_mappings, normal_opts)
-wk.register(insert_mappings, insert_opts)
+-- wk.register(leader_normal_mappings, leader_normal_opts)
+-- wk.register(leader_visual_mappings, leader_visual_opts)
+-- wk.register(normal_mappings, normal_opts)
+-- wk.register(insert_mappings, insert_opts)
 
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
@@ -473,31 +424,28 @@ local scretch = require("scretch")
 scretch.setup()
 
 -- lsp
-local lsp = require('lsp-zero').preset({
-    suggest_lsp_servers = true,
-})
-
-
-local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
-local cmp_format = require('lsp-zero').cmp_format()
-cmp.setup({
-    formatting = cmp_format,
-})
-
+-- local lsp = require('lsp-zero').preset({
+--     suggest_lsp_servers = true,
+-- })
 local lsp_zero = require('lsp-zero')
 lsp_zero.extend_lspconfig()
 
 lsp_zero.on_attach(function(client, bufnr)
     lsp_zero.default_keymaps({ buffer = bufnr })
 end)
+
+local cmp = require('cmp')
+local cmp_format = require('lsp-zero').cmp_format()
+cmp.setup({
+    formatting = cmp_format,
+})
+
 require('mason').setup()
--- require('mason-lspconfig').extend_lspconfig({})
+
 require('mason-lspconfig').setup({
     ensure_installed = {
         "lua_ls",
         "pyright",
-        -- "ruff_lsp",
         "ts_ls",
         "eslint",
         "tailwindcss",
@@ -505,16 +453,34 @@ require('mason-lspconfig').setup({
         "jsonls",
     },
     handlers = {
-        lsp.default_setup,
-        lua_ls = function()
-            local lua_opts = lsp.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
-        end,
+        lsp_zero.default_setup,
     }
 })
+require('lspconfig').lua_ls.setup(lsp_zero.nvim_lua_ls({
+    settings = {
+        Lua = {
+            workspace = {
+                checkThirdParty = false,
+                -- Set workspace to only include your Neovim config directory
+                library = {
+                    vim.env.VIMRUNTIME,
+                    "${3rd}/luv/library",
+                    "${3rd}/busted/library",
+                    vim.fn.stdpath("config"),
+                },
+            },
+            diagnostics = {
+                globals = { 'vim' },
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    }
+}))
 
-lsp.on_attach(function(client, bufnr)
-    lsp.default_keymaps({ buffer = bufnr })
+lsp_zero.on_attach(function(client, bufnr)
+    lsp_zero.default_keymaps({ buffer = bufnr })
 
     km.set("n", "<leader>la", function() vim.lsp.buf.code_action() end)
     km.set("n", "<leader>lf", function() vim.lsp.buf.format() end)
@@ -548,7 +514,7 @@ cmp.setup({
     }
 })
 
-lsp.setup()
+lsp_zero.setup()
 
 function toggle_fold(char)
     local fold_command = ''
