@@ -19,7 +19,30 @@ require('lazy').setup {
     {import = 'plugins'}, {
         'nvim-lualine/lualine.nvim',
         config = function()
-            require('lualine').setup {options = {theme = 'miss-dracula'}}
+            require('lualine').setup {
+                options = {theme = 'gruvbox'},
+                sections = {
+                    lualine_a = {'mode'},
+                    lualine_b = {'branch', 'diff', 'diagnostics'},
+                    lualine_c = {
+                        {'filename'}, {
+                            'diagnostics',
+                            sources = {'nvim_diagnostic'},
+                            sections = {'error', 'warn', 'info', 'hint'},
+                            symbols = {
+                                error = ' ',
+                                warn = ' ',
+                                info = ' '
+                            },
+                            colored = true,
+                            update_in_insert = false
+                        }
+                    },
+                    lualine_x = {'encoding', 'fileformat', 'filetype'},
+                    lualine_y = {'progress'},
+                    lualine_z = {'location'}
+                }
+            }
         end
     }, {
         'norcalli/nvim-colorizer.lua',
