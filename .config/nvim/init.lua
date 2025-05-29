@@ -19,7 +19,7 @@ require('lazy').setup {
     {import = 'plugins'}, {
         'nvim-lualine/lualine.nvim',
         config = function()
-            require('lualine').setup {options = {theme = 'gruvbox'}}
+            require('lualine').setup {options = {theme = 'miss-dracula'}}
         end
     }, {
         'norcalli/nvim-colorizer.lua',

@@ -12,19 +12,18 @@ return {
                     ERROR = '',
                     INFO = '',
                     TRACE = '✎',
-                    WARN = ''
+                    WARN = '',
                 },
                 level = 2,
                 minimum_width = 50,
                 render = 'default',
                 stages = 'fade_in_slide_out',
                 timeout = 3000,
-                top_down = true
+                top_down = true,
             }
 
             -- Keymaps
             vim.keymap.set('n', '<leader>§', notify.dismiss, {})
-
-        end
-    }
+        end,
+    },
 }
